@@ -1,6 +1,8 @@
 from functools import wraps
 from flask import Flask, request, jsonify
 
+WHITE_LIST = ['demo3']
+
 app = Flask(__name__)
 
 
@@ -15,7 +17,7 @@ def check_jwt_token():
         app.view_functions[request.endpoint],
         '_bypass_token'
     )
-    if bypass:
+    if bypass or request.endpoint in WHITE_LIST:
         return None
 
     token = request.headers.get('Authorization')
@@ -33,6 +35,11 @@ def demo1():
 
 @app.route('/endpoint2')
 def demo2():
+    return 'You made it!'
+
+
+@app.route('/endpoint3')
+def demo3():
     return 'You made it!'
 
 
