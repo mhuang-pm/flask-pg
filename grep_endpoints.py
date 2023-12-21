@@ -3,7 +3,7 @@ import os
 
 
 def extract_function_names(file_content):
-    pattern = r'@app\.route\(.*?\)\s*\ndef\s+([^\(]+)\('
+    pattern = r'@([\w.]+)\.route\(.*?\)\s*\ndef\s+([^\(]+)\('
     matches = re.findall(pattern, file_content, re.DOTALL)
     return matches
 
@@ -21,7 +21,7 @@ def main():
     if not function_names:
         print("No matching lines found in Python files.")
     else:
-        print("Function names:", function_names)
+        print("Function names:", sorted([f'{f[0]}.{f[1]}' for f in list(function_names)]))
 
 
 if __name__ == "__main__":
